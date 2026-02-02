@@ -1,4 +1,4 @@
-## Dataset Classes (16 Total)
+## Dataset Classes (16 Currently)
 
 This dataset currently contains the following insect pest classes:
 
