@@ -9,7 +9,7 @@ This dataset currently contains the following insect pest classes:
 5. **blister_beetle** — Blister Beetle  
 6. **corn_borer** — Corn Borer  
 7. **flea_beetle** — Flea Beetle  
-8. **green_bug** — Green Bug  
+8. **strawberry_root_weevil** - Strawberry Root Weevil
 9. **grub** — Grub (generic larval stage)  
 10. **miridae** — Miridae (plant bugs)  
 11. **oides_decempunctata** — Oides decempunctata (Ten-spotted leaf beetle)  
@@ -20,3 +20,5 @@ This dataset currently contains the following insect pest classes:
 16. **wireworm** — Wireworm  
 
 Folder names correspond directly to YOLO class identifiers.
+
+**green_bug** — Green Bug  moved to MismatchedData, replaced by Strawberry_root_weevil
