@@ -7,6 +7,7 @@ The dataset focuses on Ontario-relevant agricultural pest species.
 
 ## Folder Structure
 
+```
 GrowLiv-Dataset/
 ├── images/
 │   ├── alfalfa_weevil/
@@ -25,6 +26,7 @@ GrowLiv-Dataset/
     ├── aphids/
     ├── army_worm/
     └── ...
+```
 
 - `images/` — Training images organized by species
 - `labels/` — YOLO-format annotations corresponding to images/
@@ -34,7 +36,9 @@ GrowLiv-Dataset/
 
 Annotations follow YOLO format:
 
+```
 <class_id> <x_center> <y_center> <width> <height>
+```
 
 - Coordinates are normalized (0–1).
 - Each image has a corresponding `.txt` file with the same filename.
