@@ -71,10 +71,10 @@ Folder names correspond directly to MobileNetV3 class identifiers.
 ## YOLO Identification Coarse Groups
 
 1.  **tiny_pests** — Aphids, Thrips, Red Spider
-2.  **beetles** — Oides Decempunctata (Ten-spotted Leaf Beetle), Flea Beetle, Blister Beetle
+2.  **beetles** — Flea Beetle, Blister Beetle
 3.  **borers** — Peach Borer, Corn Borer
 4.  **caterpillars** — Army Worm, Black Cutworm
-5.  **plant_bugs** — Miridae (Plant Bugs), Tarnished Plant Bug, Four-Lined Plant Bug
+5.  **plant_bugs** — Tarnished Plant Bug, Four-Lined Plant Bug
 6.  **soil_larvae** — Grub, Wireworm
 7.  **weevils** — Alfalfa Weevil, Strawberry Root Weevil
 
