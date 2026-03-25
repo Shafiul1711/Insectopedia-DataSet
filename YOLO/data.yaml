@@ -1,0 +1,18 @@
+path: /home/silvermoon/Music/GrowLiv/Dataset/YOLO
+
+
+train: train/images
+val: valid/images
+
+nc: 9
+
+names:
+  0: tiny_pests #aphid+thrips+red spider
+  1: flea_beetle #grape flea beetle+striped flea beetle+flea beetle
+  2: caterpillars #army worm+black cutworm+corn borerr
+  3: plant_bugs #miridae+tarnished plant bug+ four lined plant bug
+  4: soil_larvae #grubs+wireworm
+  5: weevils #alfalfa weevil+strawberry root weevil
+  6: stink_bugs #green stink bug+brown marmorated stink bug
+  7: blister_beetle #blister beetle+black blister beetle+striped blister beetle
+  8: potato_beetle #colorado potato beetle

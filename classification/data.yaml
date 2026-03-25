@@ -1,0 +1,33 @@
+path: /home/silvermoon/Music/GrowLiv/Dataset/classification
+
+train: train/images
+val: valid/images
+
+nc: 17
+
+names:
+  0: alfalfa_weevil
+  1: aphids
+  2: army_worm
+  3: black_cutworm
+  4: blister_beetle #ignore for classification
+  5: corn_borer
+  6: flea_beetle #ignore for classification
+  7: strawberry_root_weevil
+  8: grub
+  9: miridae #ignore for classification
+  10: oides_decempunctata #ignore for classification
+  11: peach_borer
+  12: spider_mite #/two_spotted_spider_mite/red_spider
+  13: tarnished_plant_bug
+  14: thrips
+  15: wireworm
+  16: four_lined_plant_bug
+  17: grape_flea_beetle
+  18: black_blister_beetle
+  19: brown_marmorated_stink_bug
+  20: colorado_potato_beetle
+  21: green_stink_bug
+  22: striped_blister_beetle
+  23: striped_flea_beetle
+  24: striped_cucumber_beetle
