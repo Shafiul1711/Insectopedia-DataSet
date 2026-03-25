@@ -116,7 +116,7 @@ The detection model first predicts **coarse insect groups**, which are then rout
 
 ## Species Classes
 
-The dataset currently contains **25 insect species classes**:
+The dataset currently contains **24 insect species classes**.
 
 ```
 0:  alfalfa_weevil
@@ -130,19 +130,19 @@ The dataset currently contains **25 insect species classes**:
 8:  grub
 9:  miridae                  (YOLO detection only)
 10: oides_decempunctata      (YOLO detection only)
-12: spider_mite
-13: tarnished_plant_bug
-14: thrips
-15: wireworm
-16: four_lined_plant_bug
-17: grape_flea_beetle
-18: black_blister_beetle
-19: brown_marmorated_stink_bug
-20: colorado_potato_beetle
-21: green_stink_bug
-22: striped_blister_beetle
-23: striped_flea_beetle
-24: striped_cucumber_beetle
+11: spider_mite              (two_spotted_spider_mite / red_spider)
+12: tarnished_plant_bug
+13: thrips
+14: wireworm
+15: four_lined_plant_bug
+16: grape_flea_beetle
+17: black_blister_beetle
+18: brown_marmorated_stink_bug
+19: colorado_potato_beetle
+20: green_stink_bug
+21: striped_blister_beetle
+22: striped_flea_beetle
+23: striped_cucumber_beetle
 ```
 
 Some species are used **only for detection** and are excluded from the classification stage.
