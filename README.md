@@ -1,81 +1,202 @@
+# GrowLiv-Dataset
+
 ## Overview
 
-GrowLiv-Dataset contains annotated insect pest images used for training
-the GrowLiv detection and classification pipeline.
+**GrowLiv-Dataset** contains annotated insect pest images used to train and evaluate the GrowLiv multi-stage insect detection and classification pipeline.
 
-The dataset focuses on Ontario-relevant agricultural pest species.
+The dataset focuses on agricultural pest species relevant to Ontario crop systems and was curated to support real-world pest identification from field images.
 
-## Folder Structure
+Images were collected from publicly available sources and manually curated to improve dataset diversity and model robustness.
+
+---
+
+## Repository Structure
 
 ```
 GrowLiv-Dataset/
-├── images/
-│   ├── alfalfa_weevil/
-│   ├── aphids/
-│   ├── army_worm/
-│   └── ...
 │
-├── labels/
-│   ├── alfalfa_weevil/
-│   ├── aphids/
-│   ├── army_worm/
-│   └── ...
+├── classification/
+│   ├── images/
+│   └── labels/
 │
-└── test/
-    ├── alfalfa_weevil/
-    ├── aphids/
-    ├── army_worm/
-    └── ...
+├── YOLO/
+│   ├── train/
+│   └── valid/
+│
+├── test_suite/
+│   ├── images/
+│   └── labels/
+│
+├── Models/
+│
+├── PIPELINE_TOOLS/
+│
+└── README.md
 ```
 
-- `images/` — Training images organized by species
-- `labels/` — YOLO-format annotations corresponding to images/
-- `test/` — Evaluation images organized by species (not used during training)
+### classification
+Species-level dataset used to train MobileNet / ResNet classifiers.
+
+### YOLO
+Dataset used to train the YOLO insect detection model.
+
+### test_suite
+Held-out dataset used for end-to-end pipeline evaluation.
+
+### Models
+Saved weights for trained YOLO and classification models.
+
+### PIPELINE_TOOLS
+Scripts used for dataset preparation and pipeline evaluation.
+
+---
 
 ## Annotation Format
 
-Annotations follow YOLO format:
+Annotations follow **YOLO format**:
 
 ```
 <class_id> <x_center> <y_center> <width> <height>
 ```
 
-- Coordinates are normalized (0–1).
-- Each image has a corresponding `.txt` file with the same filename.
-- Class IDs correspond to the bucket mapping used for YOLO training.
+- Coordinates are normalized between **0 and 1**
+- Each image has a corresponding `.txt` annotation file
+- Class IDs correspond to the mapping defined below
 
-## Dataset Classes (17 Classes Currently)
+---
 
-This dataset currently contains the following insect pest classes:
+## YOLO Detection Buckets
 
-1. **alfalfa_weevil** — Alfalfa Weevil  
-2. **aphids** — Aphids  
-3. **army_worm** — Army Worm  
-4. **black_cutworm** — Black Cutworm  
-5. **blister_beetle** — Blister Beetle  
-6. **corn_borer** — Corn Borer  
-7. **flea_beetle** — Flea Beetle  
-8. **strawberry_root_weevil** - Strawberry Root Weevil
-9. **grub** — Grub (generic larval stage)  
-10. **miridae** — Miridae (plant bugs)  
-11. **oides_decempunctata** — Oides Decempunctata (Ten-spotted leaf beetle)  
-12. **peach_borer** — Peach Borer  
-13. **red_spider** — Two Spotted Spider Mite
-14. **tarnished_plant_bug** — Tarnished Plant Bug  
-15. **thrips** — Thrips  
-16. **wireworm** — Wireworm  
-17. **four_lined_plant_bug**
+The detection model first predicts **coarse insect groups**, which are then routed to species classifiers.
 
-Folder names correspond directly to MobileNetV3 class identifiers.
+```
+0: tiny_pests
+   - aphids
+   - thrips
+   - spider_mite
 
-## YOLO Identification Coarse Groups
+1: flea_beetle
+   - flea_beetle
+   - grape_flea_beetle
+   - striped_flea_beetle
 
-1.  **tiny_pests** — Aphids, Thrips, Red Spider
-2.  **beetles** — Flea Beetle, Blister Beetle
-3.  **borers** — Peach Borer, Corn Borer
-4.  **caterpillars** — Army Worm, Black Cutworm
-5.  **plant_bugs** — Tarnished Plant Bug, Four-Lined Plant Bug
-6.  **soil_larvae** — Grub, Wireworm
-7.  **weevils** — Alfalfa Weevil, Strawberry Root Weevil
+2: caterpillars
+   - army_worm
+   - black_cutworm
+   - corn_borer
 
-Course groups alongside the species contained within
+3: plant_bugs
+   - miridae
+   - tarnished_plant_bug
+   - four_lined_plant_bug
+
+4: soil_larvae
+   - grub
+   - wireworm
+
+5: weevils
+   - alfalfa_weevil
+   - strawberry_root_weevil
+
+6: stink_bugs
+   - green_stink_bug
+   - brown_marmorated_stink_bug
+
+7: blister_beetle
+   - blister_beetle
+   - black_blister_beetle
+   - striped_blister_beetle
+
+8: potato_beetle
+   - colorado_potato_beetle
+   - striped_cucumber_beetle
+```
+
+---
+
+## Species Classes
+
+The dataset currently contains **25 insect species classes**:
+
+```
+0:  alfalfa_weevil
+1:  aphids
+2:  army_worm
+3:  black_cutworm
+4:  blister_beetle           (YOLO detection only)
+5:  corn_borer
+6:  flea_beetle              (YOLO detection only)
+7:  strawberry_root_weevil
+8:  grub
+9:  miridae                  (YOLO detection only)
+10: oides_decempunctata      (YOLO detection only)
+12: spider_mite
+13: tarnished_plant_bug
+14: thrips
+15: wireworm
+16: four_lined_plant_bug
+17: grape_flea_beetle
+18: black_blister_beetle
+19: brown_marmorated_stink_bug
+20: colorado_potato_beetle
+21: green_stink_bug
+22: striped_blister_beetle
+23: striped_flea_beetle
+24: striped_cucumber_beetle
+```
+
+Some species are used **only for detection** and are excluded from the classification stage.
+
+---
+
+## Dataset Sources
+
+Images were curated from publicly available sources including:
+
+- **iNaturalist**  
+  https://www.inaturalist.org/
+
+- **IP102 Dataset**  
+  Wu, X., Zhan, C., Lai, Y., Cheng, M., & Yang, J. (2019).  
+  *IP102: A Large-Scale Benchmark Dataset for Insect Pest Recognition.*  
+  CVPR.
+
+Images were manually reviewed and curated to remove unsuitable observations and improve dataset quality.
+
+---
+
+## Dataset Statistics
+
+Approximate dataset scale:
+
+- **10,000+ curated images**
+- **4,800+ manually annotated bounding boxes**
+- **12,000+ classification crops generated via segmentation**
+- **1,524-image held-out evaluation test suite**
+
+---
+
+## Purpose
+
+This dataset supports the **GrowLiv insect identification pipeline**, which combines multiple computer vision stages:
+
+```
+Image
+ ↓
+YOLO Object Detection
+ ↓
+SAM Segmentation
+ ↓
+Species Classification
+```
+
+The goal is accurate identification of agricultural pest species from real-world crop images.
+
+---
+
+## License and Usage
+
+Images originate from public datasets and observation platforms.  
+Users should respect the licensing terms of the original data sources.
+
+Dataset curated and annotated as part of the GrowLiv capstone project at the University of Windsor (2026).
