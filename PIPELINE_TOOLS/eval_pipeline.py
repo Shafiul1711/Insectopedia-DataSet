@@ -36,46 +36,45 @@ RECOMMENDED RUN COMMAND (tuned for GrowLiv dataset, all features enabled)
 ================================================================================
 
 python eval_pipeline.py \
-  --images test_suite \                     # REQUIRED: path to images root folder
-  --yolo Yolo+Classifier+Info/YOLO.pt \    # REQUIRED: YOLO weights
-  --data Dataset/YOLO/yolo.yaml \          # REQUIRED: YOLO data.yaml (defines bucket names)
-  --sam_ckpt RepViT/sam/weights/repvit_sam.pt \  # REQUIRED: RepViT checkpoint
-  --clf_dir Yolo+Classifier+Info/classifiers/ \ # REQUIRED: folder with mnv4_<group>.pt files
-  --out_csv results.csv \                  # OPTIONAL: output CSV path (default: pipeline_results.csv)
-  --device cuda \                          # OPTIONAL: cuda or cpu (default: cuda)
-  --imgsz 896 \                            # TUNABLE: default YOLO inference size (default: 896)
-  --retry_imgsz 1280 \                     # TUNABLE: retry resolution for no-det/tiny_pests/weevils (default: 1280)
-  --retry_buckets tiny_pests weevils \     # TUNABLE: buckets that trigger a retry at retry_imgsz (default: tiny_pests weevils)
-  --pad 0.03 \                             # TUNABLE: crop padding fraction around YOLO box (default: 0.03)
-  --mode hybrid \                          # OPTIONAL: mask/box/hybrid — how SAM mask is applied to crop (default: hybrid)
-  --bg_alpha 0.2 \                         # TUNABLE: background dimming in hybrid mode, 0=black bg 1=full bg (default: 0.2)
-  --yolo_low_conf 0.4 \                    # TUNABLE: detections below this are LOW_CONF/rescued (default: 0.4; lower = more rescues attempted)
-  --yolo_fusion_thresh 0.6 \              # TUNABLE: below this, run fusion instead of TOP1 (default: 0.6)
-  --fusion_topk 3 \                        # TUNABLE: how many candidates to fuse when YOLO is unsure (default: 3)
-  --use_points \                           # OPTIONAL: flag — add point prompts to SAM for better mask quality (recommended on)
-  --mask_min_area 200 \                    # TUNABLE: min connected-component area in SAM mask (default: 200; lower = keep smaller masks)
-  --min_mask_frac 0.02 \                   # TUNABLE: min fraction of crop SAM mask must cover (default: 0.08; lower = allow tiny insect masks)
-  --max_mask_frac 0.85 \                   # TUNABLE: max fraction of crop SAM mask can cover (default: 0.85)
-  --clf_prescale 224 \                     # TUNABLE: resize crop longest side to this before classifier (0=disabled; 224 matches training crop scale)
-  --tile_size_mult 1.5 \                   # TUNABLE: tile if max(image_dim) >= this * imgsz (default: 1.5; lower = tile more aggressively)
-  --tile_overlap 0.25 \                    # TUNABLE: overlap between tiles as fraction (default: 0.25)
-  --tile_conf_thresh 0.50 \               # TUNABLE: tile if max YOLO conf after fusion < this (default: 0.50)
-  --tile_joint_thresh 0.35 \              # TUNABLE: tile if best joint score after fusion < this (default: 0.35)
-  --tile_per_tile_topk 3 \               # TUNABLE: YOLO candidates collected per tile in pass 1 (default: 2)
-  --tile_topk 3 \                          # TUNABLE: top-N tile candidates passed to SAM+classifier in pass 2 (default: 3; -1 = all)
-  --low_conf_rescue \                      # OPTIONAL: flag — enable classifier voting on low-conf detections (recommended on)
-  --low_conf_rescue_topk 3 \             # TUNABLE: how many low-conf candidates to evaluate (default: 3)
-  --low_conf_weight_clf 0.7 \            # TUNABLE: classifier weight in rescue score (default: 0.7)
-  --low_conf_weight_yolo 0.3 \           # TUNABLE: YOLO weight in rescue score (default: 0.3)
-  --low_conf_accept_thresh 0.5 \         # TUNABLE: minimum weighted score to accept rescue prediction (default: 0.5; lower = accept more)
-  --tiny_pest_low_conf                     # OPTIONAL: flag — use 0.2 conf floor for tiny_pests bucket instead of yolo_low_conf (recommended on)
+  --images test_suite \
+  --yolo Yolo+Classifier+Info/YOLO.pt \
+  --data Dataset/YOLO/yolo.yaml \
+  --sam_ckpt RepViT/sam/weights/repvit_sam.pt \
+  --clf_dir Yolo+Classifier+Info/classifiers/ \
+  --out_csv results.csv \
+  --device cuda \
+  --imgsz 896 \
+  --retry_imgsz 1280 \
+  --retry_buckets tiny_pests weevils \
+  --pad 0.03 \
+  --mode hybrid \
+  --bg_alpha 0.2 \
+  --yolo_low_conf 0.4 \
+  --yolo_fusion_thresh 0.6 \
+  --fusion_topk 3 \
+  --use_points \
+  --mask_min_area 200 \
+  --min_mask_frac 0.02 \
+  --max_mask_frac 0.85 \
+  --clf_prescale 224 \
+  --tile_size_mult 1.5 \
+  --tile_overlap 0.25 \
+  --tile_conf_thresh 0.50 \
+  --tile_joint_thresh 0.35 \
+  --tile_per_tile_topk 3 \
+  --tile_topk 3 \
+  --low_conf_rescue \
+  --low_conf_rescue_topk 3 \
+  --low_conf_weight_clf 0.7 \
+  --low_conf_weight_yolo 0.3 \
+  --low_conf_accept_thresh 0.5 \
+  --tiny_pest_low_conf
 
 
   #1280
-
   python PIPELINE_TOOLS/eval_pipeline.py \
   --images test_suite \
-  --yolo YOLOModels/YOLO26_GrowLiv_V2.pt \
+  --yolo YOLOModels/100.pt \
   --data Dataset/YOLO/data.yaml \
   --sam_ckpt RepViT/sam/weights/repvit_sam.pt \
   --clf_dir ClfModelsRes \
@@ -83,7 +82,40 @@ python eval_pipeline.py \
   --device cuda \
   --imgsz 896 \
   --retry_imgsz 1280 \
-  --retry_buckets tiny_pests weevils flea_beetle borers caterpillars blister_beetle soil_larvae stink_bugs \
+  --pad 0.05 \
+  --mode box \
+  --bg_alpha 0.2 \
+  --yolo_low_conf 0.4 \
+  --yolo_fusion_thresh 0.6 \
+  --fusion_topk 3 \
+  --use_points \
+  --mask_min_area 200 \
+  --min_mask_frac 0.005 \
+  --max_mask_frac 0.85 \
+  --clf_prescale 224 \
+  --tile_size_mult 1.5 \
+  --tile_overlap 0.25 \
+  --tile_conf_thresh 0.50 \
+  --tile_joint_thresh 0.35 \
+  --tile_per_tile_topk 3 \
+  --tile_topk 3 \
+  --low_conf_rescue \
+  --low_conf_rescue_topk 3 \
+  --low_conf_weight_clf 0.7 \
+  --low_conf_weight_yolo 0.3 \
+  --low_conf_accept_thresh 0.5 \
+  --tiny_pest_low_conf 0.2
+
+  python PIPELINE_TOOLS/eval_pipeline.py \
+  --images test_suite \
+  --yolo YOLOModels/103.pt \
+  --data Dataset/YOLO/data.yaml \
+  --sam_ckpt RepViT/sam/weights/repvit_sam.pt \
+  --clf_dir ClfModelsRes \
+  --out_csv results.csv \
+  --device cuda \
+  --imgsz 896 \
+  --retry_imgsz 1280 \
   --pad 0.05 \
   --mode hybrid \
   --bg_alpha 0.2 \
@@ -107,12 +139,23 @@ python eval_pipeline.py \
   --low_conf_weight_yolo 0.3 \
   --low_conf_accept_thresh 0.5 \
   --tiny_pest_low_conf 0.2 \
-  --bucket_mode_overrides caterpillars:box borers:box soil_larvae:box tiny_pests:mask
+
 
   --override_bucket tiny_pests \
   --force_tile_buckets tiny_pests
 
-  default tiling 0.5 and 0.35 tiny conf 
+  default tiling 0.5 and 0.35 tiny conf
+
+================================================================================
+CHANGES FROM PREVIOUS VERSION
+================================================================================
+
+  1. red_spider / redspider aliases → spider_mite (tiny_pests bucket unchanged)
+  2. borers bucket REMOVED entirely from COARSE_TO_GROUP and SPECIES_TO_BUCKET
+  3. corn_borer and peach_borer moved from borers → caterpillars bucket
+  4. potato_beetle moved OUT of YOLO_ONLY_BUCKETS; now uses rn18_potato_beetle.pt classifier
+  5. striped_cucumber_beetle added to potato_beetle bucket
+  6. Comprehensive alias coverage added for all species (camelCase, snake_case, no-sep, plural)
 
 ================================================================================
 NOTES
@@ -154,12 +197,11 @@ Low-conf rescue:
 
 tiny_pest_low_conf:
     Overrides --yolo_low_conf to the specified value for the tiny_pests bucket
-    (aphids, thrips, red_spider) only. All other buckets use --yolo_low_conf.
+    (aphids, thrips, spider_mite) only. All other buckets use --yolo_low_conf.
     Example: --tiny_pest_low_conf 0.15
 
 YOLO-only buckets (no classifier):
-    potato_beetle — colorado_potato_beetle is identified by YOLO alone.
-    pred_species is inferred directly from the bucket name. clf_conf = 0.0.
+    (none currently — potato_beetle now uses rn18_potato_beetle.pt)
 
 Expected folder structure for --images:
     images/
@@ -172,16 +214,15 @@ Expected folder structure for --images:
 
 Expected --clf_dir contents:
     classifiers/
-      mnv4_tiny_pests.pt
-      mnv4_flea_beetle.pt
-      mnv4_borers.pt
-      mnv4_caterpillars.pt
-      mnv4_plant_bugs.pt
-      mnv4_soil_larvae.pt
-      mnv4_weevils.pt
-      mnv4_stink_bugs.pt
-      mnv4_blister_beetle.pt
-      # potato_beetle — no classifier, YOLO only
+      rn18_tiny_pests.pt
+      rn18_flea_beetle.pt
+      rn18_caterpillars.pt        # includes corn_borer + peach_borer
+      rn18_plant_bugs.pt
+      rn18_soil_larvae.pt
+      rn18_weevils.pt
+      rn18_stink_bugs.pt
+      rn18_blister_beetle.pt
+      rn18_potato_beetle.pt       # colorado_potato_beetle + striped_cucumber_beetle
 """
 
 from __future__ import annotations
@@ -205,7 +246,7 @@ from ultralytics import YOLO
 from repvit_sam import sam_model_registry, SamPredictor
 
 IMG_EXTS = {".jpg", ".jpeg", ".png", ".bmp", ".webp", ".tif", ".tiff"}
-clf_prefix = "rn18" #change this for model
+clf_prefix = "rn18"  # change this for model
 
 # Default buckets that trigger a resolution retry at retry_imgsz
 DEFAULT_RETRY_BUCKETS = {"tiny_pests", "weevils"}
@@ -215,144 +256,308 @@ DEFAULT_FORCE_TILE_BUCKETS: set[str] = set()
 
 # -----------------------------
 # YOLO BUCKET → CLASSIFIER GROUP
-# (MUST match your trained classifier filenames: mnv4_<group>.pt)
-# potato_beetle is intentionally absent — handled by YOLO_ONLY_BUCKETS below.
+# MUST match your trained classifier filenames: rn18_<group>.pt
+#
+# CHANGES:
+#   - borers REMOVED
+#   - caterpillars now handles corn_borer + peach_borer (previously in borers)
+#   - potato_beetle ADDED (rn18_potato_beetle.pt; previously YOLO-only)
 # -----------------------------
 COARSE_TO_GROUP = {
-    "tiny_pests":     "tiny_pests",     # mnv4_tiny_pests.pt
-    "flea_beetle":    "flea_beetle",    # mnv4_flea_beetle.pt
-    "borers":         "borers",         # mnv4_borers.pt
-    "caterpillars":   "caterpillars",   # mnv4_caterpillars.pt
-    "plant_bugs":     "plant_bugs",     # mnv4_plant_bugs.pt
-    "soil_larvae":    "soil_larvae",    # mnv4_soil_larvae.pt
-    "weevils":        "weevils",        # mnv4_weevils.pt
-    "stink_bugs":     "stink_bugs",     # mnv4_stink_bugs.pt
-    "blister_beetle": "blister_beetle", # mnv4_blister_beetle.pt
+    "tiny_pests":     "tiny_pests",     # rn18_tiny_pests.pt
+    "flea_beetle":    "flea_beetle",    # rn18_flea_beetle.pt
+    "caterpillars":   "caterpillars",   # rn18_caterpillars.pt  (army_worm, black_cutworm, corn_borer, peach_borer)
+    "plant_bugs":     "plant_bugs",     # rn18_plant_bugs.pt
+    "soil_larvae":    "soil_larvae",    # rn18_soil_larvae.pt
+    "weevils":        "weevils",        # rn18_weevils.pt
+    "stink_bugs":     "stink_bugs",     # rn18_stink_bugs.pt
+    "blister_beetle": "blister_beetle", # rn18_blister_beetle.pt
+    "potato_beetle":  "potato_beetle",  # rn18_potato_beetle.pt  (colorado_potato_beetle, striped_cucumber_beetle)
 }
 
 # Buckets that have no classifier — YOLO prediction is the final answer.
-# Species is inferred directly from the bucket (single-species buckets).
-YOLO_ONLY_BUCKETS: dict[str, str] = {
-    "potato_beetle": "colorado_potato_beetle",
-}
+# potato_beetle has been REMOVED from here; it now uses rn18_potato_beetle.pt
+YOLO_ONLY_BUCKETS: dict[str, str] = {}
 
 # -----------------------------
 # Species label normalization / aliases
+#
+# Rules applied in normalize_species():
+#   1. Strip, lowercase, replace non-alphanumeric runs with '_', dedupe '_'
+#   2. Look up in SPECIES_ALIASES by snake_case key
+#   3. Also try no-separator key (s2 = s.replace("_",""))
+#
+# Coverage for each species includes:
+#   - canonical snake_case          e.g. "army_worm"
+#   - no separator / run-together   e.g. "armyworm"
+#   - common spelling variants      e.g. "armyworms" (plural)
+#   - camelCase (collapsed to no-sep after lowercasing)
 # -----------------------------
-SPECIES_ALIASES = {
-    "alfalfaweevil": "alfalfa_weevil",
-    "alfalfa_weevil": "alfalfa_weevil",
+SPECIES_ALIASES: dict[str, str] = {
 
-    "aphid": "aphids",
-    "aphids": "aphids",
+    # ── alfalfa_weevil ──────────────────────────────────────────────────────
+    "alfalfa_weevil":           "alfalfa_weevil",
+    "alfalfaweevil":            "alfalfa_weevil",
+    "alfalfa_weevils":          "alfalfa_weevil",
+    "alfalfaweevils":           "alfalfa_weevil",
 
-    "armyworm": "army_worm",
-    "army_worm": "army_worm",
+    # ── aphids ──────────────────────────────────────────────────────────────
+    "aphid":                    "aphids",
+    "aphids":                   "aphids",
+    "plant_louse":              "aphids",
+    "plant_lice":               "aphids",
+    "plantlouse":               "aphids",
+    "plantlice":                "aphids",
+    "greenfly":                 "aphids",
+    "blackfly":                 "aphids",
 
-    "blackcutworm": "black_cutworm",
-    "black_cutworm": "black_cutworm",
+    # ── army_worm ────────────────────────────────────────────────────────────
+    "army_worm":                "army_worm",
+    "armyworm":                 "army_worm",
+    "army_worms":               "army_worm",
+    "armyworms":                "army_worm",
+    "fall_armyworm":            "army_worm",
+    "fallarmyworm":             "army_worm",
+    "western_armyworm":         "army_worm",
+    "westernarmyworm":          "army_worm",
 
-    "blisterbeetle": "blister_beetle",
-    "blister_beetle": "blister_beetle",
+    # ── black_cutworm ────────────────────────────────────────────────────────
+    "black_cutworm":            "black_cutworm",
+    "blackcutworm":             "black_cutworm",
+    "black_cutworms":           "black_cutworm",
+    "blackcutworms":            "black_cutworm",
+    "cutworm":                  "black_cutworm",
+    "cutworms":                 "black_cutworm",
 
-    "blackblisterbeetle": "black_blister_beetle",
-    "black_blister_beetle": "black_blister_beetle",
+    # ── blister_beetle ───────────────────────────────────────────────────────
+    "blister_beetle":           "blister_beetle",
+    "blisterbeetle":            "blister_beetle",
+    "blister_beetles":          "blister_beetle",
+    "blisterbeetles":           "blister_beetle",
 
-    "stripedblisterbeetle": "striped_blister_beetle",
-    "striped_blister_beetle": "striped_blister_beetle",
+    # ── black_blister_beetle ─────────────────────────────────────────────────
+    "black_blister_beetle":     "black_blister_beetle",
+    "blackblisterbeetle":       "black_blister_beetle",
+    "black_blister_beetles":    "black_blister_beetle",
+    "blackblisterbeetles":      "black_blister_beetle",
 
-    "cornborer": "corn_borer",
-    "corn_borer": "corn_borer",
+    # ── striped_blister_beetle ───────────────────────────────────────────────
+    "striped_blister_beetle":   "striped_blister_beetle",
+    "stripedblisterbeetle":     "striped_blister_beetle",
+    "striped_blister_beetles":  "striped_blister_beetle",
+    "stripedblisterbeetles":    "striped_blister_beetle",
 
-    "fleabeetle": "flea_beetle",
-    "flea_beetle": "flea_beetle",
+    # ── colorado_potato_beetle ───────────────────────────────────────────────
+    "colorado_potato_beetle":   "colorado_potato_beetle",
+    "coloradopotatobeetle":     "colorado_potato_beetle",
+    "colorado_potato_beetles":  "colorado_potato_beetle",
+    "coloradopotatobeetles":    "colorado_potato_beetle",
+    "potato_beetle":            "colorado_potato_beetle",
+    "potatobeetle":             "colorado_potato_beetle",
+    "potato_beetles":           "colorado_potato_beetle",
+    "potatobeetles":            "colorado_potato_beetle",
+    "cpb":                      "colorado_potato_beetle",
 
-    "grapefleabeetle": "grape_flea_beetle",
-    "grape_flea_beetle": "grape_flea_beetle",
+    # ── striped_cucumber_beetle ──────────────────────────────────────────────
+    "striped_cucumber_beetle":  "striped_cucumber_beetle",
+    "stripedcucumberbeetle":    "striped_cucumber_beetle",
+    "striped_cucumber_beetles": "striped_cucumber_beetle",
+    "stripedcucumberbeetles":   "striped_cucumber_beetle",
+    "cucumber_beetle":          "striped_cucumber_beetle",
+    "cucumberbeetle":           "striped_cucumber_beetle",
+    "cucumber_beetles":         "striped_cucumber_beetle",
+    "cucumberbeetles":          "striped_cucumber_beetle",
+    "scb":                      "striped_cucumber_beetle",
 
-    "stripedfleabeetle": "striped_flea_beetle",
-    "striped_flea_beetle": "striped_flea_beetle",
+    # ── corn_borer ───────────────────────────────────────────────────────────
+    # NOTE: corn_borer now routes to caterpillars bucket (borers removed)
+    "corn_borer":               "corn_borer",
+    "cornborer":                "corn_borer",
+    "corn_borers":              "corn_borer",
+    "cornborers":               "corn_borer",
+    "european_corn_borer":      "corn_borer",
+    "europeancornborer":        "corn_borer",
+    "ecb":                      "corn_borer",
 
-    "grub": "grub",
-    "wireworm": "wireworm",
+    # ── peach_borer ──────────────────────────────────────────────────────────
+    # NOTE: peach_borer now routes to caterpillars bucket (borers removed)
+    "peach_borer":              "peach_borer",
+    "peachborer":               "peach_borer",
+    "peach_borers":             "peach_borer",
+    "peachborers":              "peach_borer",
+    "lesser_peach_borer":       "peach_borer",
+    "lesserpeachborer":         "peach_borer",
 
-    "miridae": "miridae",
+    # ── flea_beetle ──────────────────────────────────────────────────────────
+    "flea_beetle":              "flea_beetle",
+    "fleabeetle":               "flea_beetle",
+    "flea_beetles":             "flea_beetle",
+    "fleabeetles":              "flea_beetle",
 
-    "peachborer": "peach_borer",
-    "peach_borer": "peach_borer",
+    # ── grape_flea_beetle ────────────────────────────────────────────────────
+    "grape_flea_beetle":        "grape_flea_beetle",
+    "grapefleabeetle":          "grape_flea_beetle",
+    "grape_flea_beetles":       "grape_flea_beetle",
+    "grapefleabeetles":         "grape_flea_beetle",
 
-    "redspider": "red_spider",
-    "red_spider": "red_spider",
-    "twospottedspidermite": "red_spider",
-    "two_spotted_spider_mite": "red_spider",
+    # ── striped_flea_beetle ──────────────────────────────────────────────────
+    "striped_flea_beetle":      "striped_flea_beetle",
+    "stripedfleabeetle":        "striped_flea_beetle",
+    "striped_flea_beetles":     "striped_flea_beetle",
+    "stripedfleabeetles":       "striped_flea_beetle",
 
-    "tarnishedplantbug": "tarnished_plant_bug",
-    "tarnished_plant_bug": "tarnished_plant_bug",
+    # ── four_lined_plant_bug ─────────────────────────────────────────────────
+    "four_lined_plant_bug":     "four_lined_plant_bug",
+    "fourlinedplantbug":        "four_lined_plant_bug",
+    "four_lined_plant_bugs":    "four_lined_plant_bug",
+    "fourlinedplantbugs":       "four_lined_plant_bug",
+    "4_lined_plant_bug":        "four_lined_plant_bug",
+    "4linedplantbug":           "four_lined_plant_bug",
 
-    "thrips": "thrips",
+    # ── green_stink_bug ──────────────────────────────────────────────────────
+    "green_stink_bug":          "green_stink_bug",
+    "greenstinkbug":            "green_stink_bug",
+    "green_stink_bugs":         "green_stink_bug",
+    "greenstinkbugs":           "green_stink_bug",
+    "green_shield_bug":         "green_stink_bug",
+    "greenshieldbug":           "green_stink_bug",
 
-    "strawberryrootweevil": "strawberry_root_weevil",
-    "strawberry_root_weevil": "strawberry_root_weevil",
+    # ── brown_marmorated_stink_bug ───────────────────────────────────────────
+    "brown_marmorated_stink_bug":  "brown_marmorated_stink_bug",
+    "brownmarmoratedstinkbug":     "brown_marmorated_stink_bug",
+    "brown_marmorated_stink_bugs": "brown_marmorated_stink_bug",
+    "brownmarmoratedstinkbugs":    "brown_marmorated_stink_bug",
+    "bmsb":                        "brown_marmorated_stink_bug",
+    "marmorated_stink_bug":        "brown_marmorated_stink_bug",
+    "marmoratedstinkbug":          "brown_marmorated_stink_bug",
 
-    "fourlinedplantbug": "four_lined_plant_bug",
-    "four_lined_plant_bug": "four_lined_plant_bug",
+    # ── grub ─────────────────────────────────────────────────────────────────
+    "grub":                     "grub",
+    "grubs":                    "grub",
+    "white_grub":               "grub",
+    "whitegrub":                "grub",
+    "white_grubs":              "grub",
+    "whitegrubs":               "grub",
+    "soil_grub":                "grub",
+    "soilgrub":                 "grub",
 
-    "greenstinkbug": "green_stink_bug",
-    "green_stink_bug": "green_stink_bug",
+    # ── miridae ──────────────────────────────────────────────────────────────
+    "miridae":                  "miridae",
+    "mirid":                    "miridae",
+    "mirids":                   "miridae",
+    "mirid_bug":                "miridae",
+    "miridbug":                 "miridae",
+    "capsid_bug":               "miridae",
+    "capsidbug":                "miridae",
 
-    "brownmarmoratedstinkbug": "brown_marmorated_stink_bug",
-    "brown_marmorated_stink_bug": "brown_marmorated_stink_bug",
+    # ── spider_mite ──────────────────────────────────────────────────────────
+    # CHANGED: was red_spider / red_spider; canonical name is now spider_mite
+    "spider_mite":                  "spider_mite",
+    "spidermite":                   "spider_mite",
+    "spider_mites":                 "spider_mite",
+    "spidermites":                  "spider_mite",
+    "red_spider":                   "spider_mite",   # legacy alias kept
+    "redspider":                    "spider_mite",   # legacy alias kept
+    "red_spider_mite":              "spider_mite",
+    "redspidermite":                "spider_mite",
+    "red_spider_mites":             "spider_mite",
+    "redspidermites":               "spider_mite",
+    "two_spotted_spider_mite":      "spider_mite",
+    "twospottedspidermite":         "spider_mite",
+    "two_spotted_spider_mites":     "spider_mite",
+    "twospottedspidermites":        "spider_mite",
+    "twospotted_spider_mite":       "spider_mite",
+    "twospottedmite":               "spider_mite",
+    "tssm":                         "spider_mite",
+    "european_red_mite":            "spider_mite",
+    "europeanredmite":              "spider_mite",
 
-    "coloradopotatobeetle": "colorado_potato_beetle",
-    "colorado_potato_beetle": "colorado_potato_beetle",
+    # ── tarnished_plant_bug ──────────────────────────────────────────────────
+    "tarnished_plant_bug":      "tarnished_plant_bug",
+    "tarnishedplantbug":        "tarnished_plant_bug",
+    "tarnished_plant_bugs":     "tarnished_plant_bug",
+    "tarnishedplantbugs":       "tarnished_plant_bug",
+    "lygus_bug":                "tarnished_plant_bug",
+    "lygusbug":                 "tarnished_plant_bug",
+
+    # ── thrips ───────────────────────────────────────────────────────────────
+    "thrips":                   "thrips",
+    "thrip":                    "thrips",
+    "western_flower_thrips":    "thrips",
+    "westernflowerthrips":      "thrips",
+    "onion_thrips":             "thrips",
+    "onionthrips":              "thrips",
+
+    # ── strawberry_root_weevil ───────────────────────────────────────────────
+    "strawberry_root_weevil":   "strawberry_root_weevil",
+    "strawberryrootweevil":     "strawberry_root_weevil",
+    "strawberry_root_weevils":  "strawberry_root_weevil",
+    "strawberryrootweevils":    "strawberry_root_weevil",
+    "root_weevil":              "strawberry_root_weevil",
+    "rootweevil":               "strawberry_root_weevil",
+
+    # ── wireworm ─────────────────────────────────────────────────────────────
+    "wireworm":                 "wireworm",
+    "wireworms":                "wireworm",
+    "click_beetle_larva":       "wireworm",
+    "clickbeetlelarva":         "wireworm",
+    "elaterid_larva":           "wireworm",
+    "elateridlarva":            "wireworm",
 }
 
 # -----------------------------
-# Canonical species -> YOLO bucket (10-bucket layout)
+# Canonical species -> YOLO bucket (9-bucket layout)
+#
+# CHANGES vs previous version:
+#   - red_spider  → spider_mite  (same bucket: tiny_pests)
+#   - borers bucket REMOVED; corn_borer + peach_borer → caterpillars
+#   - potato_beetle bucket gains striped_cucumber_beetle
 # -----------------------------
 SPECIES_TO_BUCKET: dict[str, str] = {
-    # tiny_pests
-    "aphids":     "tiny_pests",
-    "thrips":     "tiny_pests",
-    "red_spider": "tiny_pests",
 
-    # flea_beetle
-    "flea_beetle":         "flea_beetle",
-    "grape_flea_beetle":   "flea_beetle",
-    "striped_flea_beetle": "flea_beetle",
+    # ── tiny_pests ───────────────────────────────────────────────────────────
+    "aphids":       "tiny_pests",
+    "thrips":       "tiny_pests",
+    "spider_mite":  "tiny_pests",   # formerly red_spider
 
-    # borers
-    "corn_borer":  "borers",
-    "peach_borer": "borers",
+    # ── flea_beetle ──────────────────────────────────────────────────────────
+    "flea_beetle":          "flea_beetle",
+    "grape_flea_beetle":    "flea_beetle",
+    "striped_flea_beetle":  "flea_beetle",
 
-    # caterpillars
+    # ── caterpillars ─────────────────────────────────────────────────────────
+    # corn_borer + peach_borer moved here from the now-removed borers bucket
     "army_worm":     "caterpillars",
     "black_cutworm": "caterpillars",
+    "corn_borer":    "caterpillars",   # MOVED from borers
+    "peach_borer":   "caterpillars",   # MOVED from borers
 
-    # plant_bugs
+    # ── plant_bugs ───────────────────────────────────────────────────────────
     "miridae":              "plant_bugs",
     "tarnished_plant_bug":  "plant_bugs",
     "four_lined_plant_bug": "plant_bugs",
 
-    # soil_larvae
-    "grub":     "soil_larvae",
-    "wireworm": "soil_larvae",
+    # ── soil_larvae ──────────────────────────────────────────────────────────
+    "grub":      "soil_larvae",
+    "wireworm":  "soil_larvae",
 
-    # weevils
+    # ── weevils ──────────────────────────────────────────────────────────────
     "alfalfa_weevil":         "weevils",
     "strawberry_root_weevil": "weevils",
 
-    # stink_bugs
+    # ── stink_bugs ───────────────────────────────────────────────────────────
     "green_stink_bug":            "stink_bugs",
     "brown_marmorated_stink_bug": "stink_bugs",
 
-    # blister_beetle
+    # ── blister_beetle ───────────────────────────────────────────────────────
     "blister_beetle":         "blister_beetle",
     "black_blister_beetle":   "blister_beetle",
     "striped_blister_beetle": "blister_beetle",
 
-    # potato_beetle (YOLO only)
-    "colorado_potato_beetle": "potato_beetle",
+    # ── potato_beetle ────────────────────────────────────────────────────────
+    # Now classifier-backed via rn18_potato_beetle.pt (no longer YOLO-only)
+    "colorado_potato_beetle":  "potato_beetle",
+    "striped_cucumber_beetle": "potato_beetle",   # NEW
 }
 
 
@@ -1007,8 +1212,6 @@ def main():
         # --- Override bucket: force all detections through a specific classifier ---
         if args.override_bucket and args.override_bucket in COARSE_TO_GROUP:
             ensure_sam_set()
-            # Temporarily spoof the box's bucket by patching evaluate_candidate via args
-            # We evaluate using the top1 box but force the group to override_bucket
             group = COARSE_TO_GROUP[args.override_bucket]
             x1, y1, x2, y2 = map(float, top1.xyxy[0])
             px1, py1, px2, py2 = pad_xyxy(x1, y1, x2, y2, args.pad, w, h)
