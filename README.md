@@ -49,6 +49,9 @@ Saved weights for trained YOLO and classification models.
 ### PIPELINE_TOOLS
 Scripts used for dataset preparation and pipeline evaluation.
 
+### PIPELINE_TOOLS
+Helper and utility scripts
+
 ---
 
 ## Annotation Format
