@@ -74,7 +74,7 @@ python eval_pipeline.py \
   #1280
   python PIPELINE_TOOLS/eval_pipeline.py \
   --images test_suite \
-  --yolo YOLOModels/100.pt \
+  --yolo YOLOModels/YOLO26_GrowLiv_V4.pt \
   --data Dataset/YOLO/data.yaml \
   --sam_ckpt RepViT/sam/weights/repvit_sam.pt \
   --clf_dir ClfModelsRes \
@@ -82,40 +82,7 @@ python eval_pipeline.py \
   --device cuda \
   --imgsz 896 \
   --retry_imgsz 1280 \
-  --pad 0.05 \
-  --mode box \
-  --bg_alpha 0.2 \
-  --yolo_low_conf 0.4 \
-  --yolo_fusion_thresh 0.6 \
-  --fusion_topk 3 \
-  --use_points \
-  --mask_min_area 200 \
-  --min_mask_frac 0.005 \
-  --max_mask_frac 0.85 \
-  --clf_prescale 224 \
-  --tile_size_mult 1.5 \
-  --tile_overlap 0.25 \
-  --tile_conf_thresh 0.50 \
-  --tile_joint_thresh 0.35 \
-  --tile_per_tile_topk 3 \
-  --tile_topk 3 \
-  --low_conf_rescue \
-  --low_conf_rescue_topk 3 \
-  --low_conf_weight_clf 0.7 \
-  --low_conf_weight_yolo 0.3 \
-  --low_conf_accept_thresh 0.5 \
-  --tiny_pest_low_conf 0.2
-
-  python PIPELINE_TOOLS/eval_pipeline.py \
-  --images test_suite \
-  --yolo YOLOModels/103.pt \
-  --data Dataset/YOLO/data.yaml \
-  --sam_ckpt RepViT/sam/weights/repvit_sam.pt \
-  --clf_dir ClfModelsRes \
-  --out_csv results.csv \
-  --device cuda \
-  --imgsz 896 \
-  --retry_imgsz 1280 \
+  --retry_buckets caterpillars flea_beetle weevils tiny_pests \
   --pad 0.05 \
   --mode hybrid \
   --bg_alpha 0.2 \
@@ -139,6 +106,7 @@ python eval_pipeline.py \
   --low_conf_weight_yolo 0.3 \
   --low_conf_accept_thresh 0.5 \
   --tiny_pest_low_conf 0.2 \
+  --bucket_mode_overrides blister_beetle:box caterpillars:mask tiny_pests:mask
 
 
   --override_bucket tiny_pests \
