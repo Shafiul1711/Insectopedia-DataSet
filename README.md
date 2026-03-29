@@ -217,6 +217,6 @@ Annotated insect image dataset used for model training and evaluation.
 Machine learning training and inference pipeline used to train detection and classification models.
 
 **Insectopedia App**  
-Mobile application that integrates the trained models with a user interface and human-in-the-loop correction workflow.
+Mobile application integrating the trained ML models with a Flutter interface, a SQL-backed data layer for pest metadata and logging, and a human-in-the-loop correction workflow.
 
 Some components are maintained in separate repositories while the system is under active development.
