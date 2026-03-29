@@ -16,7 +16,7 @@ This repository contains the dataset structure, documentation, and benchmark res
 
 The following figure summarizes a benchmark comparing the Insectopedia system against several general-purpose multimodal AI models on a held-out evaluation dataset.
 
-![Insectopedia Benchmark](benchmark/insectopedia_benchmark.jpg)
+![Insectopedia Benchmark](benchmarks/insectopedia_benchmark.jpg)
 
 ## Repository Structure
 
