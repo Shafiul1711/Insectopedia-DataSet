@@ -143,7 +143,7 @@ The full pipeline runs on-device (Android) without a network call. This dataset 
 
 The benchmark compares the Insectopedia V5 on-device pipeline against five general-purpose multimodal LLMs on the 1,524-image held-out test suite. All LLMs were evaluated zero-shot with a fixed prompt; no fine-tuning was applied.
 
-![Insectopedia Benchmark](benchmark/insectopedia_benchmark.png)
+![Insectopedia Benchmark](benchmarks/insectopedia_benchmark.png)
 
 | Model | Bucket Acc | Species Acc | Δ vs V5 |
 |---|---|---|---|
