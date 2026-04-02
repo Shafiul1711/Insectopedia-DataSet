@@ -8,7 +8,7 @@ This repository contains the dataset structure, annotation files, and benchmark 
 
 ## Contents
 
-- [Dataset Overview](#dataset-overview)
+- [Dataset Statistics](#dataset-statistics)
 - [Repository Structure](#repository-structure)
 - [YOLO Detection Buckets](#yolo-detection-buckets)
 - [Species Classes](#species-classes)
@@ -27,8 +27,8 @@ This repository contains the dataset structure, annotation files, and benchmark 
 |---|---|
 | Training | 7,779 |
 | Validation | 1,941 |
-| Held-out test suite | 912 |
-| **Total** | **10,632** |
+| Held-out test suite | 1,524 |
+| **Total** | **11,244** |
 
 - 20 species · 9 detection buckets
 - 5,000+ manually annotated bounding boxes
@@ -88,21 +88,29 @@ The detection model predicts one of 9 coarse groups. Each group is then routed t
 
 ## Species Classes
 
-The dataset covers **24 species classes**. Some species are used only at the detection stage and are excluded from classification.
+The dataset covers 20 species classes used for classification.
 
 ```
- 0: alfalfa_weevil              12: tarnished_plant_bug
- 1: aphids                      13: thrips
- 2: army_worm                   14: wireworm
- 3: black_cutworm               15: four_lined_plant_bug
- 4: blister_beetle              16: grape_flea_beetle
- 5: corn_borer                  17: black_blister_beetle
- 6: flea_beetle                 18: brown_marmorated_stink_bug
- 7: strawberry_root_weevil      19: colorado_potato_beetle
- 8: grub                        20: green_stink_bug
- 9: miridae                     21: striped_blister_beetle
-10: spider_mite                 22: striped_flea_beetle
-11: spider_mite                 23: striped_cucumber_beetle
+ 0: alfalfa_weevil
+ 1: aphids
+ 2: army_worm
+ 3: black_cutworm
+ 4: corn_borer
+ 5: strawberry_root_weevil
+ 6: grub
+ 7: spider_mite
+ 8: tarnished_plant_bug
+ 9: thrips
+10: wireworm
+11: four_lined_plant_bug
+12: grape_flea_beetle
+13: black_blister_beetle
+14: brown_marmorated_stink_bug
+15: colorado_potato_beetle
+16: green_stink_bug
+17: striped_blister_beetle
+18: striped_flea_beetle
+19: striped_cucumber_beetle
 ```
 
 ---
@@ -133,7 +141,7 @@ The full pipeline runs on-device (Android) without a network call. This dataset 
 
 ## Benchmark
 
-The benchmark compares the Insectopedia V5 on-device pipeline against five general-purpose multimodal LLMs on the 912-image held-out test suite. All LLMs were evaluated zero-shot with a fixed prompt; no fine-tuning was applied.
+The benchmark compares the Insectopedia V5 on-device pipeline against five general-purpose multimodal LLMs on the 1,524-image held-out test suite. All LLMs were evaluated zero-shot with a fixed prompt; no fine-tuning was applied.
 
 ![Insectopedia Benchmark](benchmark/insectopedia_benchmark.png)
 
@@ -180,12 +188,9 @@ Images were curated from two publicly available sources and manually reviewed to
 | **Insectopedia App** | Flutter mobile app with on-device inference and HITL correction workflow |
 
 ---
+
 ## License
 
-**Code and scripts** are released under the [MIT License](LICENSE).
-
-**Dataset images** originate from iNaturalist and IP102 and remain subject to their original licenses. iNaturalist observations are typically [CC BY-NC](https://creativecommons.org/licenses/by-nc/4.0/); IP102 is intended for non-commercial research use. This dataset should not be used for commercial purposes.
-
-**Annotations and documentation** produced as part of this project are released under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Images originate from public datasets and observation platforms. Users should respect the licensing terms of the original sources.
 
 Dataset curated and annotated as part of a computer vision capstone project at the University of Windsor (2026).
